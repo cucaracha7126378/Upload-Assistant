@@ -436,6 +436,57 @@ async def upload_image_task(args: Sequence[Any]) -> dict[str, Any]:
                 console.print(f"[red]Request failed with error: {e}")
                 return {'status': 'failed', 'reason': str(e)}
 
+        elif img_host == "thrimg":
+            url = "https://img2.torrenthr.org/api/1/upload"
+            data: dict[str, Any] = {
+                'key': config['DEFAULT']['thrimg_api'],
+            }
+            async with aiofiles.open(image, 'rb') as image_file:
+                file_bytes = await image_file.read()
+            response: Optional[httpx.Response] = None
+            response_data: dict[str, Any] = {}
+            try:
+                async with httpx.AsyncClient(timeout=30.0) as image_client:
+                    response = await image_client.post(
+                        url,
+                        data=data,
+                        files={'source': (os.path.basename(image), file_bytes)},
+                    )
+                    response.raise_for_status()
+                    response_data = response.json()
+                    img_data = cast(dict[str, Any],
+                                    response_data.get('image', {}))
+                    img_url = str(img_data.get('url', '')).strip()
+                    raw_url = img_url
+                    web_url = img_url
+            except httpx.RequestError as exc:
+                console.print(
+                    f"[yellow]Failed to upload image {os.path.basename(image)}: {exc}")
+                return {'status': 'failed',
+                        'reason': f'Failed to upload image {os.path.basename(image)}: {exc}'}
+            except httpx.HTTPStatusError:
+                console.print(
+                    f"[yellow]Failed to upload image {os.path.basename(image)}")
+                if response is not None:
+                    console.print(
+                        f"[yellow]THR image host returned HTTP {response.status_code}")
+                    console.print(response.text)
+                return {'status': 'failed',
+                        'reason': f'Failed to upload image {os.path.basename(image)}'}
+            except json.decoder.JSONDecodeError:
+                console.print(
+                    f"[yellow]Failed to parse THR image host response for {os.path.basename(image)}")
+                if response is not None:
+                    console.print(response.text)
+                return {'status': 'failed',
+                        'reason': f'Failed to parse THR image host response for {os.path.basename(image)}'}
+            except KeyError:
+                console.print(
+                    f"[yellow]THR image host response was missing an image URL for {os.path.basename(image)}")
+                console.print(response_data)
+                return {'status': 'failed',
+                        'reason': f'THR image host response was missing an image URL for {os.path.basename(image)}'}
+
         elif img_host == "passtheimage":
             url = "https://passtheima.ge/api/1/upload"
             try:

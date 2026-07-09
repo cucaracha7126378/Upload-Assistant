@@ -31,7 +31,7 @@ config = {
         # IMAGE HOSTING SETTINGS
 
         # Order of image hosts. primary host as first with others as backup
-        # Available image hosts: imgbb, ptpimg, imgbox, pixhost, lensdump, ptscreens, onlyimage, dalexni, zipline, passtheimage, seedpool_cdn, sharex, utppm
+        # Available image hosts: imgbb, ptpimg, imgbox, pixhost, lensdump, ptscreens, onlyimage, dalexni, zipline, passtheimage, seedpool_cdn, sharex, utppm, thrimg
         "img_host_1": "",
         "img_host_2": "",
         "img_host_3": "",
@@ -57,6 +57,7 @@ config = {
         "sharex_api_key": "",
         # utp.pm API key
         "utppm_api": "",
+        "thrimg_api": "",
 
         # GETTING METADATA
 
@@ -843,7 +844,6 @@ config = {
         "THR": {
             # Instead of using the tracker acronym for folder name when sym/hard linking, you can use a custom name
             "link_dir_name": "",
-            "img_api": "get this from the forum post",
             "api_key": "",
             "anon": False,
             # Send uploads to THR modq for staff approval
