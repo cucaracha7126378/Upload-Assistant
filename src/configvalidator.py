@@ -102,7 +102,7 @@ IMAGE_HOST_API_KEYS: dict[str, str] = {
     "sharex": "sharex_api_key",
     "zipline": "zipline_api_key",
     "utppm": "utppm_api",
-    "thrimg": "thgimg_api",
+    "thrimg": "thrimg_api",
     # imgbox and pixhost don't require API keys
 }
 
