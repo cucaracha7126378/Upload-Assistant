@@ -315,7 +315,7 @@ async def disc_screenshots(
                     else:
                         console.print(f"[red]Image {image_path} with size {image_size} bytes: does not meet size requirements for {img_host}, retaking.")
                         retake = True
-                elif img_host and img_host in ["ptpimg", "lensdump", "ptscreens", "onlyimage", "dalexni", "zipline", "passtheimage", "seedpool_cdn", "sharex", "utppm"]:
+                elif img_host and img_host in ["ptpimg", "lensdump", "ptscreens", "onlyimage", "dalexni", "zipline", "passtheimage", "seedpool_cdn", "sharex", "utppm", "thrimg"]:
                     if meta['debug']:
                         console.print(f"[green]Image {image_path} meets size requirements for {img_host}.[/green]")
                 else:
@@ -1132,7 +1132,7 @@ async def screenshots(
                     else:
                         console.print(f"[red]Image {image_path} with size {image_size} bytes: does not meet size requirements for {img_host}, retaking.")
                         retake = True
-                elif img_host and img_host in ["ptpimg", "lensdump", "ptscreens", "onlyimage", "dalexni", "zipline", "passtheimage", "seedpool_cdn", "sharex", "utppm"]:
+                elif img_host and img_host in ["ptpimg", "lensdump", "ptscreens", "onlyimage", "dalexni", "zipline", "passtheimage", "seedpool_cdn", "sharex", "utppm", "thrimg"]:
                     if meta['debug']:
                         console.print(f"[green]Image {image_path} meets size requirements for {img_host}.[/green]")
                 else:
