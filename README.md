@@ -1,3 +1,7 @@
+### ANOTHER NOTE:
+This is just a temporary fork of version 7.1.7 but with support for the new THR codebase until support is added to https://github.com/autobrr/upbrr , https://github.com/wastaken7/Upload-Assistant or some other actively maintained upload assistant.
+
+
 ### NOTE:
 - This project is in development freeze. Only critical bugs will be addressed moving forward.
 - More details on the future of Upload Assistant will be available at a later date.

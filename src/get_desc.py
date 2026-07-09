@@ -633,9 +633,12 @@ class DescriptionBuilder:
 
         # UA Signature
         if not signature:
-            signature = f"[right][url=https://github.com/Audionut/Upload-Assistant][size=4]{meta['ua_signature']}[/size][/url][/right]"
-            if self.tracker == "HUNO":
-                signature = signature.replace("[size=4]", "[size=8]")
+            if self.tracker == "THR":
+                signature = f"[right][url=https://github.com/cucaracha7126378/Upload-Assistant][size=4]{meta['ua_signature']} (THR minifork)[/size][/url][/right]"
+            else:
+                signature = f"[right][url=https://github.com/Audionut/Upload-Assistant][size=4]{meta['ua_signature']}[/size][/url][/right]"
+                if self.tracker == "HUNO":
+                    signature = signature.replace("[size=4]", "[size=8]")
         desc_parts.append(signature)
 
         description: str = "\n".join(
