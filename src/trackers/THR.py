@@ -4,6 +4,8 @@ from typing import Any, Optional, cast
 from src.trackers.COMMON import COMMON
 from src.trackers.UNIT3D import UNIT3D
 
+CAT_DOCU = '12'
+
 Meta = dict[str, Any]
 Config = dict[str, Any]
 
@@ -39,7 +41,7 @@ class THR(UNIT3D):
         cat = '17'
 
         if 'documentary' in genres or 'documentary' in keywords:
-            cat = '12'
+            cat = CAT_DOCU
         elif category == "MOVIE":
             if is_disc == "BMDV":
                 cat = '40'
@@ -102,6 +104,28 @@ class THR(UNIT3D):
         data: dict[str, Any] = {
             'mod_queue_opt_in': await self.get_flag(meta, 'modq'),
         }
+
+        return data
+
+    async def get_tvdb(self, meta: dict[str, Any]) -> dict[str, str]:
+        cat_id = str((await self.get_category_id(meta))['category_id'])
+        does_need_tvdb = meta["category"] == "TV" and cat_id not in [CAT_DOCU]
+        tvdb = meta.get("tvdb_id", 0) if does_need_tvdb else 0
+        return {"tvdb": f"{tvdb}"}
+
+    async def get_season_number(self, meta: dict[str, Any]) -> dict[str, str]:
+        data = {}
+        cat_id = str((await self.get_category_id(meta))['category_id'])
+        if meta.get("category") == "TV" and cat_id not in [CAT_DOCU]:
+            data = {"season_number": f"{meta.get('season_int', '0')}"}
+
+        return data
+
+    async def get_episode_number(self, meta: dict[str, Any]) -> dict[str, str]:
+        data = {}
+        cat_id = str((await self.get_category_id(meta))['category_id'])
+        if meta.get("category") == "TV" and cat_id not in [CAT_DOCU]:
+            data = {"episode_number": f"{meta.get('episode_int', '0')}"}
 
         return data
 
