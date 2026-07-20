@@ -437,7 +437,7 @@ async def upload_image_task(args: Sequence[Any]) -> dict[str, Any]:
                 return {'status': 'failed', 'reason': str(e)}
 
         elif img_host == "thrimg":
-            url = "https://img2.torrenthr.org/api/1/upload"
+            url = "https://slike.torrenthr.org/api/1/upload"
             data: dict[str, Any] = {
                 'key': config['DEFAULT']['thrimg_api'],
             }
