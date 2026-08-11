@@ -1,6 +1,7 @@
 # Upload Assistant © 2025 Audionut & wastaken7 — Licensed under UAPL v1.0
 from typing import Any, Optional, cast
 
+from src.rehostimages import RehostImagesManager
 from src.trackers.COMMON import COMMON
 from src.trackers.UNIT3D import UNIT3D
 
@@ -15,12 +16,14 @@ class THR(UNIT3D):
         super().__init__(config, tracker_name='THR')
         self.config = config
         self.common = COMMON(config)
+        self.rehost_images_manager = RehostImagesManager(config)
         self.tracker = 'THR'
         self.base_url = 'https://www.torrenthr.org'
         self.id_url = f'{self.base_url}/api/torrents/'
         self.upload_url = f'{self.base_url}/api/torrents/upload'
         self.search_url = f'{self.base_url}/api/torrents/filter'
         self.torrent_url = f'{self.base_url}/torrents/'
+        self.approved_image_hosts = ['thrimg']
         self.banned_groups = []
         pass
 
@@ -75,6 +78,22 @@ class THR(UNIT3D):
             'CAM': '7',
         }.get(type_value, '0')
         return {'type_id': type_id}
+
+    async def check_image_hosts(self, meta: Meta) -> None:
+        url_host_mapping = {
+            "img.torrenthr.org": "thrimg",
+            "img2.torrenthr.org": "thrimg",
+            "slike.torrenthr.org": "thrimg",
+        }
+
+        await self.rehost_images_manager.check_hosts(
+            meta,
+            self.tracker,
+            url_host_mapping=url_host_mapping,
+            img_host_index=1,
+            approved_image_hosts=self.approved_image_hosts,
+        )
+        return
 
 
     async def get_resolution_id(
